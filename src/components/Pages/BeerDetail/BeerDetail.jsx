@@ -7,14 +7,14 @@ import Navbar from '../../shared/Navbar/Navbar';
 const BeerDetail = () => {
 
 
-    const [beerDetails, setBeerDetails] =  useState();
+    const [beerDetails, setBeerDetails] =  useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
     const params= useParams();
-    const beerId = params.id;
+    // const beerId = params.id;
 
     useEffect(() => {
-        fetch(`${beerApiBaseLink}/${beerId}`)
+        fetch(`${beerApiBaseLink}`)
         .then((response) => {
             if(!response.ok) {
                 throw new Error("Fetch went wrong!")
@@ -26,7 +26,11 @@ const BeerDetail = () => {
             setIsLoading(false);
         })
         .catch((error) => console.log(error.message));
-    }, [beerId])
+    }, [beerDetails])
+
+    const filteredBeer = beerDetails.filter((beer) => {
+        return beer._id === params.id
+    })
 
     // const [beers, setBeers] = useState([]);
 
@@ -51,19 +55,19 @@ const BeerDetail = () => {
     <>
     <Navbar/>
     <div>
-      {/* {beers.map((beer) => ( */}
-        <div>
-            <img src={beerDetails.image_url} alt="" />
-            <h1>{beerDetails.name}</h1>
-            <p>{beerDetails.tagline}</p>
+      {filteredBeer.map((beer) => (
+        <div key={beer._id}>
+            <img src={beer.image_url} alt="" />
+            <h1>{beer.name}</h1>
+            <p>{beer.tagline}</p>
             <div>
-                <p>First brewed: {beerDetails.first_brewed}</p>
-                <p>Attentuation level: {beerDetails.attenuation_level}</p>
+                <p>First brewed: {beer.first_brewed}</p>
+                <p>Attentuation level: {beer.attenuation_level}</p>
             </div>
-            <p>{beerDetails.description}</p>
+            <p>{beer.description}</p>
         </div>
-      {/* ))} */}
-    </div>
+       ))} 
+       </div>
     </>
   )
 }
