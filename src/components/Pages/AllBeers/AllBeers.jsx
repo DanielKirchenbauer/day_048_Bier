@@ -23,7 +23,7 @@ const AllBeers = () => {
       .catch((error) => console.log(error.message));
 
     }, [])
-
+    console.log(beers);
 
   return (
     <>
@@ -38,7 +38,6 @@ const AllBeers = () => {
             <Link to={`/beerdetail/${beer._id}`}>Details</Link>
           </div> 
           ))}
-            <h1>Hallo from All Beers</h1>
         </div>
     </>
   )
